@@ -2,8 +2,16 @@ import React from 'react'
 import './Navbar.css';
 
 const Navbar = () => {
+  const name = 'JohnDoe'
   return (
-    <div>Navbar</div>
+    <>
+      <div className="navbar">
+      <div className="uname">
+        {name}
+      </div>
+      <button className='logout'>Logout</button>
+      </div>
+    </>
   )
 }
 
