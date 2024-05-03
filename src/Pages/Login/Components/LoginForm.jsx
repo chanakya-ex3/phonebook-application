@@ -8,11 +8,13 @@ const LoginForm = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
 
   const handleChangeLogin = () => {
     setIsLogin(!isLogin);
+    setErrorMessage('');
     setEmail('');
     setName('');
     setPassword('');
@@ -27,6 +29,7 @@ const LoginForm = () => {
       console.log('confirmPassword', confirmPassword)
     }
     if (isFormValid()) {
+      setErrorMessage('');
       navigate('/home');
     }
 
@@ -35,23 +38,23 @@ const LoginForm = () => {
   const isFormValid = () => {
     // form validation username should be valid email and password should be above 6 characters
     if (!email || !password) {
-      alert('Please enter email and password');
-      return false;
-    }
-    if (!isLogin && password !== confirmPassword) {
-      alert('Password and Confirm Password should be same');
-      return false;
-    }
-    if (!isLogin && name === '') {
-      alert('Please enter name');
-      return false;
-    }
-    if (password.length < 6) {
-      alert('Password should be atleast 6 characters');
+      setErrorMessage('Please enter email and password')
       return false;
     }
     if (!validateEmail(email)) {
-      alert('Please enter valid email');
+      setErrorMessage('Please enter valid email');
+      return false;
+    }
+    if (!isLogin && name === '') {
+      setErrorMessage('Please enter name');
+      return false;
+    }
+    if (!isLogin && password !== confirmPassword) {
+      setErrorMessage('Password and Confirm Password should be same');
+      return false;
+    }
+    if (password.length < 6) {
+      setErrorMessage('Password should be atleast 6 characters');
       return false;
     }
     return true;
@@ -73,6 +76,7 @@ const LoginForm = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+
       </div>
       {!isLogin && (
         <div className='name'>
@@ -84,6 +88,7 @@ const LoginForm = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+  
         </div>
       )}
       <div className='password'>
@@ -95,6 +100,7 @@ const LoginForm = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
       </div>
       {!isLogin && (
         <div className='password'>
@@ -106,8 +112,10 @@ const LoginForm = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
+  
         </div>
       )}
+      <p className='error-show'>{errorMessage}</p>
       <button className='submit' type='submit' onClick={handleSubmit}>
         Submit
       </button>
