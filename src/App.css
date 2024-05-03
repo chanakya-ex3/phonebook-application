@@ -22,3 +22,7 @@ body{
   display: block;
   color: red;
 }
+
+button{
+  cursor: pointer;
+}

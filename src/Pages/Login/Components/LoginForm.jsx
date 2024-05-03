@@ -10,6 +10,8 @@ const LoginForm = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const API_KEY = process.env.REACT_APP_API_KEY;
+
   const navigate = useNavigate();
 
   const handleChangeLogin = () => {
@@ -21,17 +23,62 @@ const LoginForm = () => {
     setConfirmPassword('');
   };
 
-  const handleSubmit = () => {
-    console.log('email', email)
-    console.log('password', password)
-    if (!isLogin) {
-      console.log('name', name)
-      console.log('confirmPassword', confirmPassword)
-    }
+  const handleSubmit = async () => {
+
     if (isFormValid()) {
-      setErrorMessage('');
-      navigate('/home');
-    }
+      try {
+        if(isLogin){
+           await fetch(`https://mfpwxvanolojwoflxwvo.supabase.co/auth/v1/token?grant_type=password`, {
+            method: 'POST',
+            body: JSON.stringify({
+              email: email,
+              password: password,
+              returnSecureToken: true,
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': API_KEY
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.error) {
+                setErrorMessage(data.error_description);
+              } else {
+                localStorage.setItem('token', data.access_token);
+                window.location.reload();
+              }
+            });
+        } else{
+          await fetch(`https://mfpwxvanolojwoflxwvo.supabase.co/auth/v1/signup`, {
+            method: 'POST',
+            body: JSON.stringify({
+              email: email,
+              password: password,
+              returnSecureToken: true,
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': API_KEY
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.error_code) {
+                setErrorMessage(data.msg);
+              } else {
+                localStorage.setItem('token', data.access_token);
+                window.location.reload();
+              }
+            });
+        
+        }
+      }
+      catch (error) {
+        console.error('Error:', error);
+        setErrorMessage('Something went wrong');
+      }
+    } 
 
   };
 
@@ -88,7 +135,7 @@ const LoginForm = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-  
+
         </div>
       )}
       <div className='password'>
@@ -112,7 +159,7 @@ const LoginForm = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-  
+
         </div>
       )}
       <p className='error-show'>{errorMessage}</p>
