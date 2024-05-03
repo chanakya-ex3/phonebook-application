@@ -20,9 +20,46 @@ const LoginForm = () => {
   };
 
   const handleSubmit = () => {
-    console.log('Submitted');
-    navigate('/home');
+    console.log('email', email)
+    console.log('password', password)
+    if (!isLogin) {
+      console.log('name', name)
+      console.log('confirmPassword', confirmPassword)
+    }
+    if (isFormValid()) {
+      navigate('/home');
+    }
+
   };
+
+  const isFormValid = () => {
+    // form validation username should be valid email and password should be above 6 characters
+    if (!email || !password) {
+      alert('Please enter email and password');
+      return false;
+    }
+    if (!isLogin && password !== confirmPassword) {
+      alert('Password and Confirm Password should be same');
+      return false;
+    }
+    if (!isLogin && name === '') {
+      alert('Please enter name');
+      return false;
+    }
+    if (password.length < 6) {
+      alert('Password should be atleast 6 characters');
+      return false;
+    }
+    if (!validateEmail(email)) {
+      alert('Please enter valid email');
+      return false;
+    }
+    return true;
+  }
+  const validateEmail = (email) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
 
   return (
     <div className='login-form'>
