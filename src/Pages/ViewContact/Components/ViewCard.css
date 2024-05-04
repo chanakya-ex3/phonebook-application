@@ -1,5 +1,8 @@
-.view-form{
+.viewcard{
     width: 80%;
+}
+.view-form{
+    /* width: 80%; */
     display: flex;
     flex-direction: column;
     justify-content: center;
