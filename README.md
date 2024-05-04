@@ -10,7 +10,23 @@ Clone the existing React project repository from GitHub to your local machine us
 
 ```bash
 git clone https://github.com/chanakya-ex3/phonebook-application.git
-****
+```
+### Step 3: Move to React Project's Directory
+Move to the React Project's Folder by using `cd` command
+```bash
 cd phonebook-application
+```
+### Step 4: NPM Packages install
+Install NPM Packages using the `npm` command
+```bash
 npm install
+```
+Alternativaly, you can also use
+```bash
+npm i
+```
+### Step 5: Run the Project
+React Project can be run using the command below
+```bash
 npm start
+```
