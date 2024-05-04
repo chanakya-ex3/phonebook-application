@@ -3,6 +3,7 @@ import './LoginForm.css';
 import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+  const [data, setData] = useState([]);
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -22,6 +23,7 @@ const LoginForm = () => {
     setPassword('');
     setConfirmPassword('');
   };
+
 
   const handleSubmit = async () => {
 
@@ -46,6 +48,7 @@ const LoginForm = () => {
                 setErrorMessage(data.error_description);
               } else {
                 localStorage.setItem('token', data.access_token);
+                localStorage.setItem('user_metadata', JSON.stringify(data.user.user_metadata));
                 window.location.reload();
               }
             });
@@ -68,6 +71,7 @@ const LoginForm = () => {
                 setErrorMessage(data.msg);
               } else {
                 localStorage.setItem('token', data.access_token);
+                localStorage.setItem('user_metadata', JSON.stringify({ sub: data.id, email: data.email}));
                 window.location.reload();
               }
             });

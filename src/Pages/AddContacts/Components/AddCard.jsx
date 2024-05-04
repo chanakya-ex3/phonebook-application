@@ -4,14 +4,34 @@ import './AddCard.css'
 
 const AddCard = () => {
   const navigate = useNavigate()
+  const user_metadata = localStorage.getItem('user_metadata')
+  const id = JSON.parse(user_metadata)["sub"]
 
   const [name, setName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [address, setAddress] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
 
-  const handleAdd = () => {
+
+  const handleAdd = async () => {
     if (validateAddForm()) {
+      await fetch(`https://mfpwxvanolojwoflxwvo.supabase.co/rest/v1/contacts`,{
+        method: 'POST',
+        headers: {
+          'apikey': process.env.REACT_APP_API_KEY,
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(
+        {
+          name: name,
+          phone_number: phoneNumber,
+          address: address,
+          user_id: id
+        }
+      )
+    })
       setErrorMessage('')
       navigate('/home')
     }
@@ -33,10 +53,6 @@ const AddCard = () => {
     }
     if (phoneNumber.length < 10) {
       setErrorMessage('Phone Number should be atleast 10 digits')
-      return false
-    }
-    if (address === '') {
-      setErrorMessage('Please enter Address')
       return false
     }
 

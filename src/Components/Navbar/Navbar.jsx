@@ -2,7 +2,23 @@ import React from 'react'
 import './Navbar.css';
 
 const Navbar = () => {
-  const name = 'JohnDoe'
+  function extractNameFromEmail(email) {
+    const parts = email.split('@');
+  
+    if (parts.length !== 2) {
+      return null;
+    }
+    const localPart = parts[0];
+    const cleanedName = localPart.replace(/[\._-]/g, ' ');
+    const capitalizedName = cleanedName
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+    return capitalizedName;
+  }
+  const user_metadata = localStorage.getItem('user_metadata')
+  const name = extractNameFromEmail(JSON.parse(user_metadata)["email"]);
   const API_KEY = process.env.REACT_APP_API_KEY;
   const logout = async () => {
     await fetch(`https://mfpwxvanolojwoflxwvo.supabase.co/auth/v1/logout`, {
@@ -18,6 +34,7 @@ const Navbar = () => {
       }),
     })
     localStorage.removeItem('token');
+    localStorage.removeItem('user_metadata');
     window.location.reload();
   }
   return (

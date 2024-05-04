@@ -5,7 +5,6 @@ import './App.css';
 
 const App = () => {
   const token = window.localStorage.getItem('token');
-  console.log(token)
   if (!token) {
     return (
       <Router>
