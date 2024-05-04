@@ -34,4 +34,4 @@ npm start
 ## In order to maintain the security of the project, sensitive information such as the API key was stored within a .env file. This file has been excluded from the GitHub repository.
 #### (was shared via gmail)
 
-### ***File was sent as `env` and should be ranamed as `.env`***
+### ***File was sent as `env` and should be renamed as `.env`***
