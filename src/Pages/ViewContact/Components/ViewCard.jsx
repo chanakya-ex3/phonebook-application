@@ -4,7 +4,6 @@ import './ViewCard.css'
 const ViewCard = props => {
   const contactInfo = props.data
   return (
-    <div>
       <div className='viewcard'>
         <div className="view-form">
           <div className="line1">
@@ -25,7 +24,6 @@ const ViewCard = props => {
           </div>
         </div>
       </div>
-    </div>
   )
 }
 
