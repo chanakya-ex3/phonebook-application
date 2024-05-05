@@ -28,13 +28,11 @@ const Navbar = () => {
         'apikey': API_KEY,
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
-      body: JSON.stringify({
-        email: "xeyiki8899@buzblox.com",
-        password: "newword123"
-      }),
+      body: localStorage.getItem('user'),
     })
     localStorage.removeItem('token');
     localStorage.removeItem('user_metadata');
+    localStorage.removeItem('user');
     window.location.reload();
   }
   return (

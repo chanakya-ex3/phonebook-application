@@ -49,6 +49,10 @@ const LoginForm = () => {
               } else {
                 localStorage.setItem('token', data.access_token);
                 localStorage.setItem('user_metadata', JSON.stringify(data.user.user_metadata));
+                localStorage.setItem('user',JSON.stringify({
+                  'email': email,
+                  'password': password
+                }))
                 window.location.reload();
               }
             });
